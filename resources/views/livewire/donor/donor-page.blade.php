@@ -1,17 +1,13 @@
 <div>
-    <x-container title="Donor Registration" routeBackBtn="" titleBackBtn="" disableBackBtn="">
+    <x-container title="Add Donor" routeBackBtn="" titleBackBtn="" disableBackBtn="">
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <x-input label="Donor ID" placeholder="donor id" wire:model.defer="donor_id" />
-            <x-select
-                label="Blood Group"
-                placeholder="select blood group"
-                :options="['A', 'AB', 'O', 'B']"
-                wire:model.defer="blood_group"
-            />
+
+            <x-input label="Full Name" placeholder="full name" wire:model.defer="full_name" />
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
-            <x-input label="Full Name" placeholder="full name" wire:model.defer="full_name" />
+            <x-input label="IC Number" placeholder="ic number" wire:model.defer="identification_number" />
             <x-input label="Phone Number" placeholder="phone number" wire:model.defer="phone_number" />
         </div>
 
@@ -53,13 +49,16 @@
         </div>
 
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 mt-4">
-            <x-input type="date" label="Donation Date" wire:model.defer="donation_date" />
+            <x-select
+                label="Blood Group"
+                placeholder="select blood group"
+                :options="['A+', 'A-', 'O+', 'O-', 'B+', 'B-', 'AB+','AB-' ]"
+                wire:model.defer="blood_group"
+            />
         </div>
 
         <div class="mt-4">
             <x-button primary wire:click="create" label="Add" />
         </div>
-
-        
     </x-container>
 </div>

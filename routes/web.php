@@ -11,12 +11,16 @@ use App\Http\Livewire\Auth\Passwords\Reset;
 use App\Http\Livewire\Auth\Verify;
 use App\Http\Livewire\Home\Home;
 use App\Http\Livewire\Donor\DonorPage;
+use App\Http\Livewire\Donation\DonationPage;
+use App\Http\Livewire\ViewDonate\ViewDonatePage;
 use App\Http\Livewire\BloodTestPage\BloodTestPage;
 use App\Http\Livewire\ViewDonor\ViewDonorPage;
 use App\Http\Livewire\ViewBloodTest\ViewBloodTestPage;
 use App\Http\Livewire\RegisterUser\RegisterUserPage;
 use App\Http\Livewire\Patient\PatientPage;
+use App\Http\Livewire\ViewPatient\ViewPatientPage;
 use App\Http\Livewire\BloodTransfer\BloodTransferPage;
+use App\Http\Livewire\ViewBloodRequest\ViewBloodRequestPage;
 
 /*
 |--------------------------------------------------------------------------
@@ -35,8 +39,8 @@ Route::middleware('guest')->group(function () {
     Route::get('login', Login::class)
         ->name('login');
 
-    Route::get('register', Register::class)
-        ->name('register');
+    // Route::get('register', Register::class)
+    //     ->name('register');
 });
 
 Route::get('password/reset', Email::class)
@@ -67,10 +71,14 @@ Route::middleware('auth')->group(function () {
 Route::middleware('auth')->group(function () {
     Route::get('home', Home::class)->name('home');
     Route::get('donor-page', DonorPage::class)->name('donor-page');
+    Route::get('donation-page', DonationPage::class)->name('donation-page');
+    Route::get('view-donate-page', ViewDonatePage::class)->name('view-donate-page');
     Route::get('blood-test-page', BloodTestPage::class)->name('blood-test-page');
     Route::get('patient-page', PatientPage::class)->name('patient-page');
     Route::get('view-donor-page', ViewDonorPage::class)->name('view-donor-page');
     Route::get('view-blood-test-page', ViewBloodTestPage::class)->name('view-blood-test-page');
     Route::get('register-user-page', RegisterUserPage::class)->name('register-user-page');
     Route::get('blood-transfer-page', BloodTransferPage::class)->name('blood-transfer-page');
-}); 
+    Route::get('view-patient-page', ViewPatientPage::class)->name('view-patient-page');
+    Route::get('view-blood-request-page', ViewBloodRequestPage::class)->name('view-blood-request-page');
+});

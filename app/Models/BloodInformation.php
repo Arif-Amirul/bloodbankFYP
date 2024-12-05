@@ -12,32 +12,20 @@ class BloodInformation extends Model
     protected $table = 'blood_information';
     protected $fillable = [
         'user_id',
-        'donor_id',
+        'test_id',
         'blood_id',
+        'blood_group',
         'date',
         'white_blood_cells',
-        'neutrophils',
         'red_blood_cells',
         'haemoglobin',
         'hematrocrit',
-        'mcv',
         'platelets',
-        'cd4_cd8',
         'hiv_test',
-        'glicaemia',
-        'transferrin',
-        'ferritim',
         'sodium',
         'potassium',
         'calcium',
-        'plasma_proteins',
-        'albumin',
-        'prealbumin',
-        'gamma_globulins',
-        'alt',
-        'gamma_gt',
-       
-
+        'blood_status',
     ];
 
     public function user()

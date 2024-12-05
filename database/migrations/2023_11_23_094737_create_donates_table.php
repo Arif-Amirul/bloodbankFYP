@@ -13,21 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('blood_information', function (Blueprint $table) {
+        Schema::create('donate', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('donation_id');
+            $table->string('donor_id');
             $table->string('blood_id');
-            $table->string('date');
-            $table->string('white_blood_cells');
-            $table->string('red_blood_cells');
-            $table->string('haemoglobin');
-            $table->string('hematrocrit');
-            $table->string('platelets');
-            $table->string('hiv_test');
-            $table->string('sodium');
-            $table->string('potassium');
-            $table->string('calcium');
+            $table->string('donation_date');
+
             $table->timestamps();
         });
     }
@@ -39,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('blood_information');
+        Schema::dropIfExists('donate');
     }
 };

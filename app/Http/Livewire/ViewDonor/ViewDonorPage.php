@@ -4,12 +4,13 @@ namespace App\Http\Livewire\ViewDonor;
 
 use Livewire\Component;
 use App\Models\DonorInformation;
-//use App\Models\BloodInformation;
+use WireUi\Traits\Actions;
 
 class ViewDonorPage extends Component
 {
-    //DONOR UPDATE
+    use Actions;
     public $updateModal = false;
+    public $viewMoreModal = false;
     public $donor_id;
     public $blood_group;
     public $full_name;
@@ -18,61 +19,78 @@ class ViewDonorPage extends Component
     public $date;
     public $gender;
     public $race;
-    public $street_address; 
+    public $street_address;
     public $city;
     public $state;
     public $postal_code;
-    public $donation_date;
+    public $identification_number;
+    public $donor;
+
+    public function openModalViewMore($id){
+        $this->viewMoreModal = true;
+        $this->donor = DonorInformation::find($id);
+        $this->marital_status =  $this->donor->marital_status;
+        $this->date =  $this->donor->date;
+        $this->gender =   $this->donor->gender;
+        $this->race =  $this->donor->race;
+        $this->street_address =  $this->donor->street_address;
+        $this->city =   $this->donor->city;
+        $this->state =   $this->donor->state;
+        $this->postal_code =   $this->donor->postal_code;
+    }
 
     public function openModalUpdate($id){
         $this->updateModal = true;
-        $donor = DonorInformation::find($id);
-        $this->donor_id = $donor->donor_id;
-        $this->blood_group = $donor->blood_group;
-        $this->full_name = $donor->full_name;
-        $this->phone_number = $donor->phone_number;
-        $this->marital_status = $donor->marital_status;
-        $this->date = $donor->date;
-        $this->gender = $donor->gender;
-        $this->race = $donor->race;
-        $this->street_address = $donor->street_address;
-        $this->city = $donor->city;
-        $this->state = $donor->state;
-        $this->postal_code = $donor->postal_code;
-        $this->donation_date= $donor->donation_date;
-        
+        $this->donor = DonorInformation::find($id);
+        $this->donor_id =   $this->donor->donor_id;
+        $this->full_name =  $this->donor->full_name;
+        $this->identification_number=   $this->donor->identification_number;
+        $this->phone_number =   $this->donor->phone_number;
+        $this->blood_group =   $this->donor->blood_group;
+        $this->marital_status =  $this->donor->marital_status;
+        $this->date =  $this->donor->date;
+        $this->gender =   $this->donor->gender;
+        $this->race =  $this->donor->race;
+        $this->street_address =  $this->donor->street_address;
+        $this->city =   $this->donor->city;
+        $this->state =   $this->donor->state;
+        $this->postal_code =   $this->donor->postal_code;
     }
 
     public function update($id){
-         // Find the donor by ID
-         $donor = DonorInformation::find($id);
+        $this->donor->update([
+            'donor_id' => $this->donor_id,
+            'full_name' => $this->full_name,
+            'identification_number' => $this->identification_number,
+            'phone_number' => $this->phone_number,
+            'marital_status' => $this->marital_status,
+            'date' => $this->date,
+            'gender' => $this->gender,
+            'race' => $this->race,
+            'street_address' => $this->street_address,
+            'city' => $this->city,
+            'state' => $this->state,
+            'postal_code' => $this->postal_code,
+            'blood_group' => $this->blood_group,
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+        $this->updateModal = false;
 
-         // Delete the donor
-         $donor->update();
-         $this->donor_id = $donor->donor_id;
-         $this->blood_group = $donor->blood_group;
-         $this->full_name = $donor->full_name;
-         $this->phone_number = $donor->phone_number;
-         $this->marital_status = $donor->marital_status;
-         $this->date = $donor->date;
-         $this->gender = $donor->gender;
-         $this->race = $donor->race;
-         $this->street_address = $donor->street_address;
-         $this->city = $donor->city;
-         $this->state = $donor->state;
-         $this->postal_code = $donor->postal_code;
-         $this->donation_date= $donor->donation_date;
+        // $this->dialog([
+        //     'title'       => 'Data Updated!',
+        //     'description' => 'Data was successfully updated',
+        //     'icon'        => 'success'
+        // ]);
     }
 
     public function delete($id){
-         // Find the donor by ID
-        $donor = DonorInformation::find($id);
 
-        // Delete the donor
+        $donor = DonorInformation::find($id);
         $donor->delete();
         $this->donor_id = $donor->donor_id;
-        $this->blood_group = $donor->blood_group;
         $this->full_name = $donor->full_name;
+        $this->identification_number= $donor->identification_number;
         $this->phone_number = $donor->phone_number;
         $this->marital_status = $donor->marital_status;
         $this->date = $donor->date;
@@ -82,90 +100,27 @@ class ViewDonorPage extends Component
         $this->city = $donor->city;
         $this->state = $donor->state;
         $this->postal_code = $donor->postal_code;
-        $this->donation_date= $donor->donation_date;
+        $this->blood_group = $donor->blood_group;
+
+        // $bloodStock = BloodStock::where('blood_type' ,$this->blood_group )->first();
+
+        // $updateBloodStock = BloodStock::where('blood_type' ,$this->blood_group )
+        //             ->update(['quantity' => $bloodStock->quantity -1]);
+
+        $this->dialog([
+            'title'       => 'Data Deleted!',
+            'description' => 'Data was successfully deletec',
+            'icon'        => 'success'
+        ]);
     }
-
-
-
-
-
-
-    /*ADD BLOOD TEST
-    public $updateModalTest = false;
-    public $blood_id;
-    public $white_blood_cells;
-    public $neutrophils;
-    public $red_blood_cells;
-    public $haemoglobin;
-    public $hematrocrit;
-    public $mcv;
-    public $platelets;
-    public $cd4_cd8;
-    public $hiv_test;
-    public $glicaemia;
-    public $transferrin;
-    public $ferritim;
-    public $sodium;
-    public $potassium;
-    public $calcium;
-    public $plasma_proteins;
-    public $albumin;
-    public $prealbumin;
-    public $gamma_globulins;
-    public $alt;
-    public $gamma_gt;*/
-
-    /*public function openModalBloodTest($id){
-        $this->updateModalTest = true;
-        $test = BloodInformation::find($id);
-        $this->blood_id = $test->blood_id;
-        $this->white_blood_cells = $test->white_blood_cells;
-        $this->neutrophils = $test->neutrophils;
-        $this->red_blood_cells = $test->red_blood_cells;
-        $this->haemoglobin = $test->haemoglobin;
-        $this->hematrocrit = $test->hematocrit;
-        $this->mcv = $test->mcv;
-        $this->platelets = $test->platelets;
-        $this->cd4_cd8 = $test->cd4_cd8;
-        $this->hiv_test = $test->hiv_test;
-        $this->glicaemia = $test->glicaemia;
-        $this->transferrin = $test->transferrin;
-        $this->ferritim = $test->ferritin;
-        $this->sodium = $test->sodium;
-        $this->potassium = $test->potassium;
-        $this->calcium = $test->calcium;
-        $this->plasma_proteins = $test->plasma_proteins;
-        $this->albumin = $test->albumin;
-        $this->prealbumin = $test->prealbumin;
-        $this->gamma_globulins = $test->gamma_globulins;
-        $this->alt = $test->alt;
-        $this->gamma_gt = $test->gamma_gt;
-
-    }*/
-
-    public $updateModalTest = false;
-    public $viewModalTest = false;
-
-    public function openModalBloodTest()
-    {
-        $this->updateModalTest = true;
-    }
-
-    public function viewModalBloodTest()
-    {
-        $this->viewModalTest = true;
-    }
-
-  
 
     public function render()
     {
         $Donor = DonorInformation::all();
-        
-        return view('livewire.view-donor.view-donor-page', [
-            'data' =>    $Donor , 
-        ])->extends('layouts.main');
 
-        
+        return view('livewire.view-donor.view-donor-page', [
+            'data' =>    $Donor,
+
+        ])->extends('layouts.main');
     }
 }

@@ -5,7 +5,7 @@
     'disableBackBtn' => 'false'
 ])
 
-<div class="px-2 lg:px-10 ">
+<div class="px-2">
     <div class="flex flex-col items-center justify-between p-4 mb-4 space-y-3 text-white bg-black rounded-md dark:bg-primary-600 md:flex-row md:space-y-0">
         <h1 class="text-base font-semibold uppercase myFontSemibold animate__animated animate__fadeInLeft animate__faster">
             {{$title}}
@@ -19,7 +19,7 @@
             </div>
         @endif
     </div>
-    <div class="px-4 py-5 mb-24 bg-white border rounded-lg shadow-sm lg:px-10 dark:bg-slate-900 dark:border-none">
+    <div class="px-2 py-5 mb-24 bg-white border rounded-lg shadow-sm  dark:bg-slate-900 dark:border-none">
         <div class="py-4 ">
             {{$slot}}
         </div>

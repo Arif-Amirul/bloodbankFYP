@@ -5,31 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-
-class DonorInformation extends Model
+class Donate extends Model
 {
     use HasFactory;
 
-    protected $table = 'donor_information';
+    protected $table = 'donate';
     protected $fillable = [
         'user_id',
+        'donation_id',
         'donor_id',
-        'identification_number',
-        'full_name',
-        'phone_number',
-        'marital_status',
-        'date',
-        'gender',
-        'race',
-        'street_address',
-        'city',
-        'state',
-        'postal_code',
         'blood_group',
+        'blood_id',
+        'donation_date',
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class);
     }
+
 }

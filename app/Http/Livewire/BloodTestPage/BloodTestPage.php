@@ -2,96 +2,97 @@
 
 namespace App\Http\Livewire\BloodTestPage;
 use App\Models\BloodInformation;
+use App\Models\BloodStock;
+use App\Models\Donate;
 use Livewire\Component;
 use WireUi\Traits\Actions;
 
 class BloodTestPage extends Component
 {
+    //ADD BLOOD TEST
     use Actions;
-    public $donor_id;
+    public $test_id;
     public $blood_id;
+    public $blood_group;
     public $date;
     public $white_blood_cells;
-    public $neutrophils;
     public $red_blood_cells;
     public $haemoglobin;
     public $hematrocrit;
-    public $mcv;
     public $platelets;
-    public $cd4_cd8;
     public $hiv_test;
-    public $glicaemia;
-    public $transferrin;
-    public $ferritim;
     public $sodium;
     public $potassium;
     public $calcium;
-    public $plasma_proteins;
-    public $albumin;
-    public $prealbumin;
-    public $gamma_globulins;
-    public $alt;
-    public $gamma_gt;
+    public $blood_status;
 
+
+    public function updatedBloodId($value)
+    {
+        $this->blood_group = Donate::join('donor_information', 'donate.donor_id', '=', 'donor_information.donor_id')
+            ->where('donate.blood_id', $value)
+            ->value('donor_information.blood_group');
+    }
 
     public function create() {
-        
-        $this->validate([ 
-            'donor_id' => 'required',
+
+        $this->validate([
+            'test_id' => 'required',
             'blood_id' => 'required',
+            'blood_group' => 'required',
             'date' => 'required',
             'white_blood_cells' => 'required',
-            'neutrophils' => 'required',
             'red_blood_cells'=> 'required',
             'haemoglobin' => 'required',
             'hematrocrit' => 'required',
-            'mcv' => 'required',
             'platelets' => 'required',
-            'cd4_cd8' => 'required',
             'hiv_test' => 'required',
-            'glicaemia' => 'required',
-            'transferrin' => 'required',
-            'ferritim' => 'required',
             'sodium'=> 'required',
             'potassium'=> 'required',
             'calcium'=> 'required',
-            'plasma_proteins' => 'required',
-            'albumin' => 'required',
-            'prealbumin' => 'required',
-            'gamma_globulins' => 'required',
-            'alt' => 'required',
-            'gamma_gt' => 'required',
+            'blood_status' => 'required',
         ]);
 
         BloodInformation::create([
             'user_id' => auth()->user()->id,
-            'donor_id'=> $this->donor_id,
+            'test_id'=> $this->test_id,
             'blood_id'=> $this->blood_id,
+            'blood_group'=> $this->blood_group,
             'date'=> $this->date,
             'white_blood_cells'=> $this->white_blood_cells,
-            'neutrophils'=> $this->neutrophils,
             'red_blood_cells'=> $this->red_blood_cells,
             'haemoglobin'=> $this->haemoglobin,
             'hematrocrit'=> $this->hematrocrit,
-            'mcv'=> $this->mcv,
             'platelets'=> $this->platelets,
-            'cd4_cd8'=> $this->cd4_cd8,
             'hiv_test'=> $this->hiv_test,
-            'glicaemia'=> $this->glicaemia,
-            'transferrin'=> $this->transferrin,
-            'ferritim'=> $this->ferritim,
             'sodium'=> $this->sodium,
             'potassium'=> $this->potassium,
             'calcium'=> $this->calcium,
-            'plasma_proteins'=> $this->plasma_proteins,
-            'albumin'=> $this->albumin,
-            'prealbumin'=> $this->prealbumin,
-            'gamma_globulins'=> $this->gamma_globulins,
-            'alt'=> $this->alt,
-            'gamma_gt'=> $this->gamma_gt,
+            'blood_status'=> $this->blood_status,
         ]);
 
-        
+
+        $bloodStock = BloodStock::where('blood_type' ,$this->blood_group )->first();
+
+        $updateBloodStock = BloodStock::where('blood_type' ,$this->blood_group )
+                ->update(['quantity' => $bloodStock->quantity + 1]);
+
+        $this->reset([
+            'test_id',
+            'blood_id',
+            'blood_group',
+            'date',
+            'white_blood_cells',
+            'red_blood_cells',
+            'haemoglobin',
+            'hematrocrit',
+            'platelets',
+            'hiv_test',
+            'sodium',
+            'potassium',
+            'calcium',
+        ]);
+
         $this->dialog()->success(
             $title = 'Successfully',
             $description = 'Blood collection added succesfully.'
@@ -99,7 +100,16 @@ class BloodTestPage extends Component
 
     }
     public function render()
-    {
-        return view('livewire.blood-test-page.blood-test-page')->extends('layouts.main');
-    }
+{
+    // Fetch blood_id and fullname from tables using join
+    $bloodData = Donate::join('donor_information', 'donate.donor_id', '=', 'donor_information.donor_id')
+        ->select('donate.blood_id', 'donor_information.full_name')
+        ->distinct()
+        ->pluck('donor_information.full_name', 'donate.blood_id'); // Fetch unique blood IDs with full names
+
+    return view('livewire.blood-test-page.blood-test-page', [
+        'bloodData' => $bloodData,
+    ])->extends('layouts.main');
+}
+
 }

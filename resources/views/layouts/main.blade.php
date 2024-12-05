@@ -18,8 +18,7 @@
             class="fixed inset-0 z-10 bg-gray-900 opacity-50"
             x-bind:class="{ 'hidden': !toggleSidebarMobile, 'block': toggleSidebarMobile }" x-cloak>
         </div>
-        <div class="w-full overflow-x-clip bg-gray-50 dark:bg-slate-800"
-        :class="toggleSidebarDesktop ? 'block lg:ml-[5rem]' : 'lg:ml-0'" x-cloak>
+        <div class="w-full overflow-x-clip bg-gray-50 dark:bg-slate-800">
             @include('include.navbar')
             <main class="w-full ">
                 <div class="container mx-auto md:mt-4 ">
